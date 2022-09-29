@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+console.log(process.env.INFURA_ID);
+
 const transferInterface = ["function transfer(address to, uint amount)"];
 
 // export const myAddress = "0x58d0479bc1dADF0ce218D862143E268B538E2F62";
