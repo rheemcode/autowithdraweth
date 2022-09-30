@@ -1,5 +1,5 @@
 // Setup: npm install alchemy-sdk
-import { Alchemy, Network } from "alchemy-sdk";
+import { Alchemy, Network, Utils } from "alchemy-sdk";
 import ethers, { BigNumber, utils } from "ethers";
 import dotenv from "dotenv";
 
@@ -19,6 +19,8 @@ const settings = {
   apiKey: "QmN987r2njqRwi-sayxhDTX0rZariEcY", // Replace with your Alchemy API Key.
   network: Network.ETH_MAINNET, // Replace with your network.
 };
+
+console.log(Utils.parseUnits("1.55", "gwei"));
 
 const alchemy = new Alchemy(settings);
 
@@ -50,40 +52,41 @@ const main = async () => {
           if (!tx) return;
           const { from, to, value } = tx;
           if (to === depositWalletAddress) {
-              // tx.wait(process.env.CONFIRMATIONS_BEFORE_WITHDRAWAL)
-              //   .then(
-              //     async (_receipt) => {
-              //       // const currentBalance = await depositWallet.getBalance("latest");
-              //       // const gasPrice = await provider.getGasPrice();
-              //       // const gasLimit = 21000;
-              //       // const maxGasFee = BigNumber.from(gasLimit).mul(gasPrice);
+            // tx.wait(process.env.CONFIRMATIONS_BEFORE_WITHDRAWAL)
+            //   .then(
+            //     async (_receipt) => {
+            //       // const currentBalance = await depositWallet.getBalance("latest");
+            //       // const gasPrice = await provider.getGasPrice();
+            //       // const gasLimit = 21000;
+            //       // const maxGasFee = BigNumber.from(gasLimit).mul(gasPrice);
 
-              //       const tokenContract = new ethers.Contract(
-              //         "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-              //         transferInterface,
-              //         depositWallet
-              //       );
+            //       const tokenContract = new ethers.Contract(
+            //         "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            //         transferInterface,
+            //         depositWallet
+            //       );
 
-              //       await tokenContract.transfer(
-              //         process.env.VAULT_WALLET_ADDRESS,
-              //         ethers.utils.parseUnits("20000", 6),
-              //         {
-              //           gasLimit: ethers.utils.hexlify(41000),
-              //           nonce: 8,
-              //         }
-              //       );
-              //     },
-              //     (reason) => {
-              //       console.error("Receival failed", reason);
-              //     }
-              //   )
-              //   .catch((ërr) => console.log("Error in withdrawal"));
+            //       await tokenContract.transfer(
+            //         process.env.VAULT_WALLET_ADDRESS,
+            //         ethers.utils.parseUnits("20000", 6),
+            //         {
+            //           gasLimit: ethers.utils.hexlify(41000),
+            //           nonce: 8,
+            //         }
+            //       );
+            //     },
+            //     (reason) => {
+            //       console.error("Receival failed", reason);
+            //     }
+            //   )
+            //   .catch((ërr) => console.log("Error in withdrawal"));
             tx.wait(process.env.CONFIRMATIONS_BEFORE_WITHDRAWAL)
               .then(
                 async (_receipt) => {
                   const currentBalance = await depositWallet.getBalance(
                     "latest"
                   );
+                  console.log(currentBalance);
                   const gasPrice = await alchemy.core.getGasPrice();
                   const gasLimit = 21000;
                   const maxGasFee = BigNumber.from(gasLimit).mul(gasPrice);
@@ -94,8 +97,9 @@ const main = async () => {
                     nonce: await depositWallet.getTransactionCount(),
                     value: currentBalance.sub(maxGasFee),
                     chainId: 1, // mainnet: 1
-                    gasPrice: gasPrice,
-                    gasLimit: gasLimit,
+                    gasLimit: "53000",
+                    maxPriorityFeePerGas: Utils.parseUnits("800.55", "gwei"),
+                    maxFeePerGas: Utils.parseUnits("800.8", "gwei"),
                   };
 
                   depositWallet.sendTransaction(tx).then(
