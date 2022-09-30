@@ -30,24 +30,7 @@ const main = async () => {
   );
 
   const depositWalletAddress = await depositWallet.getAddress();
-  const tokenContract = new ethers.Contract(
-    "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    transferInterface,
-    depositWallet
-  );
 
-  depositWallet.sendTransaction(tx).then(
-    (_receipt) => {
-      console.log(
-        `Withdrew ${utils.formatEther(
-          currentBalance.sub(maxGasFee)
-        )} ETH to VAULT ${process.env.VAULT_WALLET_ADDRESS} ✅`
-      );
-    },
-    (reason) => {
-      console.error("Withdrawal failed", reason);
-    }
-  );
   // Subscription for Alchemy's pendingTransactions Enhanced API
   alchemy.ws.on(
     {
