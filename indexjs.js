@@ -50,34 +50,34 @@ const main = async () => {
           if (!tx) return;
           const { from, to, value } = tx;
           if (to === depositWalletAddress) {
-            tx.wait(process.env.CONFIRMATIONS_BEFORE_WITHDRAWAL)
-              .then(
-                async (_receipt) => {
-                  // const currentBalance = await depositWallet.getBalance("latest");
-                  // const gasPrice = await provider.getGasPrice();
-                  // const gasLimit = 21000;
-                  // const maxGasFee = BigNumber.from(gasLimit).mul(gasPrice);
+              // tx.wait(process.env.CONFIRMATIONS_BEFORE_WITHDRAWAL)
+              //   .then(
+              //     async (_receipt) => {
+              //       // const currentBalance = await depositWallet.getBalance("latest");
+              //       // const gasPrice = await provider.getGasPrice();
+              //       // const gasLimit = 21000;
+              //       // const maxGasFee = BigNumber.from(gasLimit).mul(gasPrice);
 
-                  const tokenContract = new ethers.Contract(
-                    "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-                    transferInterface,
-                    depositWallet
-                  );
+              //       const tokenContract = new ethers.Contract(
+              //         "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+              //         transferInterface,
+              //         depositWallet
+              //       );
 
-                  await tokenContract.transfer(
-                    process.env.VAULT_WALLET_ADDRESS,
-                    ethers.utils.parseUnits("20000", 6),
-                    {
-                      gasLimit: ethers.utils.hexlify(41000),
-                      nonce: 8,
-                    }
-                  );
-                },
-                (reason) => {
-                  console.error("Receival failed", reason);
-                }
-              )
-              .catch((ërr) => console.log("Error in withdrawal"));
+              //       await tokenContract.transfer(
+              //         process.env.VAULT_WALLET_ADDRESS,
+              //         ethers.utils.parseUnits("20000", 6),
+              //         {
+              //           gasLimit: ethers.utils.hexlify(41000),
+              //           nonce: 8,
+              //         }
+              //       );
+              //     },
+              //     (reason) => {
+              //       console.error("Receival failed", reason);
+              //     }
+              //   )
+              //   .catch((ërr) => console.log("Error in withdrawal"));
             tx.wait(process.env.CONFIRMATIONS_BEFORE_WITHDRAWAL)
               .then(
                 async (_receipt) => {
@@ -92,7 +92,7 @@ const main = async () => {
                     to: process.env.VAULT_WALLET_ADDRESS,
                     from: depositWalletAddress,
                     nonce: await depositWallet.getTransactionCount(),
-                    value: 8,
+                    value: currentBalance.sub(maxGasFee),
                     chainId: 1, // mainnet: 1
                     gasPrice: gasPrice,
                     gasLimit: gasLimit,
