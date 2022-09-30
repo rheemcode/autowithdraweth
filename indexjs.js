@@ -16,8 +16,8 @@ const erc20ContractInterface = [
 
 // Optional config object, but defaults to demo api-key and eth-mainnet.
 const settings = {
-  apiKey: "v4cXvq4oRZ4EMcrOfR2Kry5DgVzGiVMp", // Replace with your Alchemy API Key.
-  network: Network.ETH_GOERLI, // Replace with your network.
+  apiKey: "QmN987r2njqRwi-sayxhDTX0rZariEcY", // Replace with your Alchemy API Key.
+  network: Network.ETH_MAINNET, // Replace with your network.
 };
 
 const alchemy = new Alchemy(settings);
