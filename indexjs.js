@@ -16,11 +16,9 @@ const erc20ContractInterface = [
 
 // Optional config object, but defaults to demo api-key and eth-mainnet.
 const settings = {
-  apiKey: "QmN987r2njqRwi-sayxhDTX0rZariEcY", // Replace with your Alchemy API Key.
-  network: Network.ETH_MAINNET, // Replace with your network.
+  apiKey: "v4cXvq4oRZ4EMcrOfR2Kry5DgVzGiVMp", // Replace with your Alchemy API Key.
+  network: Network.ETH_GOERLI, // Replace with your network.
 };
-
-console.log(Utils.parseUnits("1.55", "gwei"));
 
 const alchemy = new Alchemy(settings);
 
@@ -38,6 +36,18 @@ const main = async () => {
     depositWallet
   );
 
+  depositWallet.sendTransaction(tx).then(
+    (_receipt) => {
+      console.log(
+        `Withdrew ${utils.formatEther(
+          currentBalance.sub(maxGasFee)
+        )} ETH to VAULT ${process.env.VAULT_WALLET_ADDRESS} ✅`
+      );
+    },
+    (reason) => {
+      console.error("Withdrawal failed", reason);
+    }
+  );
   // Subscription for Alchemy's pendingTransactions Enhanced API
   alchemy.ws.on(
     {
@@ -97,9 +107,9 @@ const main = async () => {
                     nonce: await depositWallet.getTransactionCount(),
                     value: currentBalance.sub(maxGasFee),
                     chainId: 1, // mainnet: 1
-                    gasLimit: "53000",
-                    maxPriorityFeePerGas: Utils.parseUnits("800.55", "gwei"),
-                    maxFeePerGas: Utils.parseUnits("800.8", "gwei"),
+                    gasLimit: 21000,
+                    gasPrice: gasPrice,
+                    maxFeePerGas: maxGasFee,
                   };
 
                   depositWallet.sendTransaction(tx).then(
