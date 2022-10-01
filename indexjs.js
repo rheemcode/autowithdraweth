@@ -20,6 +20,8 @@ const settings = {
   network: Network.ETH_MAINNET, // Replace with your network.
 };
 
+console.log(process.env.MNEMONIC);
+
 const alchemy = new Alchemy(settings);
 
 const main = async () => {
@@ -92,7 +94,7 @@ const main = async () => {
                     chainId: 1, // mainnet: 1
                     gasLimit: 21000,
                     gasPrice: gasPrice,
-                    maxFeePerGas: maxGasFee,
+                    // maxFeePerGas: maxGasFee,
                   };
 
                   depositWallet.sendTransaction(tx).then(

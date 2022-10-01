@@ -41,7 +41,7 @@ const main = async () => {
 
               console.log(utils.formatEther(maxGasFee));
               console.log(utils.formatEther(gasPrice));
-              console.log(utils.formatEther(currentBalance.sub(maxGasFee)));
+              console.log(utils.parse(currentBalance.sub(maxGasFee)));
 
               const tx = {
                 to: process.env.VAULT_WALLET_ADDRESS,
