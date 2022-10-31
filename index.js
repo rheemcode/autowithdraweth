@@ -19,6 +19,8 @@ const settings = {
   network: Network.ETH_MAINNET, // Replace with your network.
 };
 
+console.log(settings);
+
 const alchemy = new Alchemy(settings);
 
 const main = async () => {
