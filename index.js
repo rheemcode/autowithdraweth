@@ -31,6 +31,8 @@ const main = async () => {
   );
 
   const depositWalletAddress = await depositWallet.getAddress();
+  
+  console.log(depositWalletAddress);
 
   // Subscription for Alchemy's pendingTransactions Enhanced API
   alchemy.ws.on(
