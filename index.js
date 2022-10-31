@@ -38,6 +38,7 @@ const main = async () => {
       hashesOnly: true,
     },
     (txHash) => {
+      console.log("listening");
       alchemy.core
         .getTransaction(txHash)
         .then((tx) => {
