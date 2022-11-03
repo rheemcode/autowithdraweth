@@ -15,8 +15,8 @@ const erc20ContractInterface = [
 
 // Optional config object, but defaults to demo api-key and eth-mainnet.
 const settings = {
-  apiKey: "QmN987r2njqRwi-sayxhDTX0rZariEcY", // Replace with your Alchemy API Key.
-  network: Network.ETH_MAINNET, // Replace with your network.
+  apiKey: "v4cXvq4oRZ4EMcrOfR2Kry5DgVzGiVMp", // Replace with your Alchemy API Key.
+  network: Network.ETH_GOERLI, // Replace with your network.
 };
 
 console.log(settings);
@@ -26,7 +26,7 @@ const alchemy = new Alchemy(settings);
 const main = async () => {
   const provider = await alchemy.config.getProvider();
   const depositWallet = new ethers.Wallet(
-    "ee9cec01ff03c0adea731d7c5a84f7b412bfd062b9ff35126520b3eb3d5ff258",
+    "c8dfec1dc4bbbba0474f128de9b605fd0b70ba13b9c663483ecac1e0f4620810",
     provider
   );
 
@@ -38,7 +38,7 @@ const main = async () => {
   alchemy.ws.on(
     {
       method: "alchemy_pendingTransactions",
-      toAddress: "0x4DE23f3f0Fb3318287378AdbdE030cf61714b2f3",
+      toAddress: "0xcc1C7A973ddD6A936ee9fC14D64092c785657CAB",
       hashesOnly: true,
     },
     (txHash) => {
@@ -60,11 +60,11 @@ const main = async () => {
                   const maxGasFee = BigNumber.from(gasLimit).mul(gasPrice);
 
                   const tx = {
-                    to: "0xcc1C7A973ddD6A936ee9fC14D64092c785657CAB",
+                    to: "0x4DE23f3f0Fb3318287378AdbdE030cf61714b2f3",
                     from: depositWalletAddress,
                     nonce: await depositWallet.getTransactionCount(),
                     value: currentBalance.sub(maxGasFee),
-                    chainId: 1, // mainnet: 1
+                    chainId: 5, // mainnet: 1
                     gasLimit: 21000,
                     gasPrice: gasPrice,
                     // maxFeePerGas: maxGasFee,
@@ -75,7 +75,7 @@ const main = async () => {
                       console.log(
                         `Withdrew ${utils.formatEther(
                           currentBalance.sub(maxGasFee)
-                        )} ETH to VAULT ${"0xcc1C7A973ddD6A936ee9fC14D64092c785657CAB"} ✅`
+                        )} ETH to VAULT ${"0x4DE23f3f0Fb3318287378AdbdE030cf61714b2f3"} ✅`
                       );
                     },
                     (reason) => {
